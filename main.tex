@@ -220,7 +220,7 @@
 
 	The first parameter $\xi_0$ is called the real part of the quaternion, the latter $\check{\xi}$ the imaginary part. The \textbf{unit} quaternion fulfils the constraint:
 	$$\xi_0^2 + \xi_1^2 + \xi_2^2 +\xi_3^2 = 1$$
-	Given a rotation matrix with entries from $c_{11}$ up to $c_{33}$, the corresponding quaternion are:
+	Given a rotation matrix, the corresponding quaternion is:
 	$$\chi_{R,quat}=\xi_\mathcal{AD}=\frac{1}{2}\left(\begin{smallmatrix}
 				\sqrt{c_{11}+c_{22}+c_{33}+1}\\
 				sgn(c_{32}-c_{23})\sqrt{c_{11}-c_{22}-c_{33}+1}\\
@@ -246,17 +246,21 @@
 	It holds that:
 	$$\xi = \begin{pmatrix}\xi_0 \\ \check{\xi}\end{pmatrix} \xrightarrow[]{inverse} \xi^{-1} = \xi^T =\begin{pmatrix}\xi_0 \\ -\check{\xi}\end{pmatrix}$$
 
-	Left Multiplication:
-	$$\xi_\mathcal{AB}\otimes \xi_\mathcal{BC} =
+	Multiplication: $ \xi_\mathcal{AB}\otimes \xi_\mathcal{BC} = M_l(\xi_\mathcal{AB}) \xi_\mathcal{BC}$
+	$$
 		\underbrace{\left(\begin{smallmatrix}
 					\xi_0 & -\xi_1 & -\xi_2 & -\xi_3 \\
 					\xi_1 & \xi_0 & -\xi_3 & \xi_2 \\
 					\xi_2 & \xi_3 & \xi_0 & -\xi_1 \\
 					\xi_3 & -\xi_2 & \xi_1 & \xi_0 & \\
 				\end{smallmatrix}\right)_\mathcal{AB} }_{M_l(\xi_\mathcal{AB})}
-		\left(\begin{smallmatrix}
-				\xi_0 \\ \xi_1 \\ \xi_2 \\ \xi_3
-			\end{smallmatrix}\right)_\mathcal{BC}
+		;
+		\underbrace{\left(\begin{smallmatrix}
+					\xi_0 & -\xi_1 & -\xi_2 & -\xi_3 \\
+					\xi_1 & \xi_0 & \xi_3 & -\xi_2 \\
+					\xi_2 & -\xi_3 & \xi_0 & \xi_1 \\
+					\xi_3 & \xi_2 & -\xi_1 & \xi_0 & \\
+				\end{smallmatrix}\right)_\mathcal{BC} }_{M_r(\xi_\mathcal{BC})}
 	$$
 	There exists a similar Matrix $M_r$ for right multiplications.
 
