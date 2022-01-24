@@ -208,15 +208,23 @@
 		\end{pmatrix} $$
 
 	\subsubsection{Unit Quaternion}
-	A non-minimal representation which doesn't suffer from sigularity is provided by unit quaternions, aka \textbf{Euler parameters}.
+	A non-minimal representation which doesn't suffer from sigularites
 
-	Considering a rotational vector $\varphi \in \mathbb{R}^3$, a unit quaternion is defined by:
+	From rotation vector $\varphi \in \mathbb{R}^3$ to unit quaternion:
 	$$\chi_{R,quat}= \xi =\begin{pmatrix}\xi_0 \\ \check{\xi}\end{pmatrix} =
 		\begin{pmatrix}
 			cos(\frac{\theta}{2}) \\
 			sin(\frac{\theta}{2}) \overrightarrow{n}
 		\end{pmatrix} =
 		\begin{pmatrix}\xi_0 \\ \xi_1 \\ \xi_2 \\ \xi_3 \end{pmatrix}$$
+
+	Hamiltonian conventions:
+	$$ \xi = \xi_0 + \xi_1i + \xi_2j + \xi_3k \quad
+	i^2 = j^2 = k^2 = ijk = -1; $$
+	$$
+	ij = -ji = -ijk^2 = k \quad
+	jk = -kj = i \quad
+	ki = -ik = j $$
 
 	The first parameter $\xi_0$ is called the real part of the quaternion, the latter $\check{\xi}$ the imaginary part. The \textbf{unit} quaternion fulfils the constraint:
 	$$\xi_0^2 + \xi_1^2 + \xi_2^2 +\xi_3^2 = 1$$
