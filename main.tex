@@ -419,7 +419,10 @@
 	\smallskip
 	Mapping from Analytic to Geometric Jacobian, it holds that:
 	$$J_{e0}(q) = E_e(\chi)J_{eA}(q)$$
-	with $E_e(\chi)$ containing $E_P$ and $E_R$ stacked.
+	with $E_e(\chi) = \left[\begin{smallmatrix}
+		E_p(\chi) & 0 \\
+		0 & E_R(\chi)
+	\end{smallmatrix}\right] \in \mathbb{R}^{6 \times m_e}$ .
 
 	\subsection{Kinematic Control Methods}
 	\subsubsection{Inverse Differential Kinematics}
@@ -492,12 +495,12 @@
 		\caption{Numerical Inverse Kinematics}
 	\end{algorithm}
 
-	To reduce the inaccuracy for large steps $\Delta\chi_e^i$ we could simply scale each step:
-	$q \leftarrow q+ kJ_{eA}^+ \Delta\chi_e ,\quad 0<k<1$
+	To $\Delta\chi_e^i$ the linearization (Jacobian) becomes inaccurate, scale:
+	$q \leftarrow q + kJ_{eA}^+ \Delta\chi_e ,\quad 0<k<1$
 
 	\smallskip
 	For badly conditioned (singular) Jacobians, we use either the damped inverse or use the Jacobi-transposed method:
-	$$q \leftarrow q+ \alpha J_{eA}^T \Delta\chi_e$$
+	$$q \leftarrow q + \alpha J_{eA}^T \Delta\chi_e$$
 	For small enough $\alpha$ convergence can be guaranteed.
 
 	\smallskip
@@ -570,11 +573,16 @@
 
 	\subsection{Lagrange Method}
 
-	The \textbf{Lagrangian Function} is for mechanical systems exactly the difference between the total kinetic energy $\mathcal{T}$ and the total potential energy $\mathcal{U}$.
+	The \textbf{Lagrangian Function} for mech. sys. is exactly the difference between the total kinetic energy $\mathcal{T}$ and total potential energy $\mathcal{U}$.
 	$$\mathcal{L} = \mathcal{T}-\mathcal{U}$$
 
 	\textbf{Euler-Lagrange (of the second kind)}:
-	$\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right) - \left(\frac{\partial \mathcal{L}}{\partial q}\right) = \tau$
+	$
+	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right) - \left(\frac{\partial \mathcal{L}}{\partial q}\right) = \tau
+	\Rightarrow 
+	\frac{d}{dt} \left(\frac{\partial \mathcal{T}}{\partial \dot{q}} \right) - \frac{\partial \mathcal{T}}{\partial q} + \frac{\partial \mathcal{U}}{\partial q} = \tau
+	$
+	with total gen. ext. forces $\tau$
 
 	The \textbf{Hamiltonian} states the total energy: $\mathcal{H}= \mathcal{T}+\mathcal{U}$
 
@@ -597,12 +605,28 @@
 
 
 	\subsection{Projected Euler Method}
+	$\left[\begin{smallmatrix}
+			v_s \\ \Omega
+	\end{smallmatrix}\right] = 
+	\left[\begin{smallmatrix}
+		J_P \\ J_R
+	\end{smallmatrix}\right] \dot{q} \qquad
+	\left[\begin{smallmatrix}
+		a_s \\ \Psi
+	\end{smallmatrix}\right] = 
+	\left[\begin{smallmatrix}
+		J_P \\ J_R
+	\end{smallmatrix}\right] \ddot{q} + \left[\begin{smallmatrix}
+		\dot{J}_P \\ \dot{J}_R
+	\end{smallmatrix}\right] \dot{q}$
+
 	Rotate Inertia Tensor: ${}_\mathcal{I}\Theta = C_\mathcal{IB}\cdot {}_\mathcal{B}\Theta \cdot C_\mathcal{IB}^T$
 
 	$\displaystyle M  = \sum_{i=1}^{n_b}({}_\mathcal{A}J_{S_i}^T\cdot m\cdot  {}_\mathcal{A}J_{S_i}+{}_\mathcal{B}J_{R_i}^T\cdot{}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}J_{R_i})$\\
 	\begin{equation*}\begin{split}
 			b  = \sum_{i=1}^{n_b}( & {}_\mathcal{A}J_{S_i}^T m {}_\mathcal{A}\dot{J}_{S_i}\dot{q}
-			\\ & + {}_\mathcal{B}J_{R_i}^T({}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\dot{J}_{R_i}\cdot \dot{q}+ {}_\mathcal{B}\Omega_{S_i}\times {}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\Omega_{S_i} ))
+			\\ & + {}_\mathcal{B}J_{R_i}^T({}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\dot{J}_{R_i}\cdot \dot{q} +
+			 \underbrace{{}_\mathcal{B}\Omega_{S_i}\times {}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\Omega_{S_i}}_{J_{R_i}\dot{q} \times {}_\mathcal{B}\Theta_{S_i} J_{R_i}\dot{q} = 0 \text{ in 2D} } ))
 		\end{split}\end{equation*}
 	$\displaystyle g = \sum_{i=1}^{n_b}(-{}_\mathcal{A}J_{S_i}^T\cdot {}_\mathcal{A}F_{g,i})$
 
