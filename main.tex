@@ -220,13 +220,13 @@
 
 	Hamiltonian conventions:
 	$$ \xi = \xi_0 + \xi_1i + \xi_2j + \xi_3k \quad
-	i^2 = j^2 = k^2 = ijk = -1; $$
+		i^2 = j^2 = k^2 = ijk = -1; $$
 	$$
-	ij = -ji = -ijk^2 = k \quad
-	jk = -kj = i \quad
-	ki = -ik = j $$
+		ij = -ji = -ijk^2 = k \quad
+		jk = -kj = i \quad
+		ki = -ik = j $$
 
-	The first parameter $\xi_0$ is the real part of the quaternion, $\check{\xi}$ the imaginary part. 
+	The first parameter $\xi_0$ is the real part of the quaternion, $\check{\xi}$ the imaginary part.
 	$\xi_0^2 + \xi_1^2 + \xi_2^2 +\xi_3^2 = 1$
 
 	Given a rotation matrix, the corresponding quaternion is:
@@ -306,9 +306,9 @@
 
 	{\small Angle Axis:} $E_R = \left[ \begin{smallmatrix} n\quad & \sin\theta I_{3\times3} + (1- \cos\theta) \left[n\right]_\times)\end{smallmatrix}\right]$
 
-	{\small Rotation Vector :} 
+	{\small Rotation Vector :}
 	\resizebox{0.8\hsize}{!}{
-	$E_R = \left[ \begin{smallmatrix} I_{3\times3} + \left[\varphi\right]_\times \left(\frac{1-\cos\|\varphi\|}{\|\varphi\|^2} \right) + \left[\varphi\right]_\times^2 \left(\frac{\|\varphi\| - \sin\|\varphi\|}{\|\varphi\|^3}\right) \end{smallmatrix}\right]$
+		$E_R = \left[ \begin{smallmatrix} I_{3\times3} + \left[\varphi\right]_\times \left(\frac{1-\cos\|\varphi\|}{\|\varphi\|^2} \right) + \left[\varphi\right]_\times^2 \left(\frac{\|\varphi\| - \sin\|\varphi\|}{\|\varphi\|^3}\right) \end{smallmatrix}\right]$
 	}
 
 	\subsection{Velocity in Moving Bodies}
@@ -420,9 +420,9 @@
 	Mapping from Analytic to Geometric Jacobian, it holds that:
 	$$J_{e0}(q) = E_e(\chi)J_{eA}(q)$$
 	with $E_e(\chi) = \left[\begin{smallmatrix}
-		E_p(\chi) & 0 \\
-		0 & E_R(\chi)
-	\end{smallmatrix}\right] \in \mathbb{R}^{6 \times m_e}$ .
+				E_p(\chi) & 0 \\
+				0 & E_R(\chi)
+			\end{smallmatrix}\right] \in \mathbb{R}^{6 \times m_e}$ .
 
 	\subsection{Kinematic Control Methods}
 	\subsubsection{Inverse Differential Kinematics}
@@ -578,9 +578,9 @@
 
 	\textbf{Euler-Lagrange (of the second kind)}:
 	$
-	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right) - \left(\frac{\partial \mathcal{L}}{\partial q}\right) = \tau
-	\Rightarrow 
-	\frac{d}{dt} \left(\frac{\partial \mathcal{T}}{\partial \dot{q}} \right) - \frac{\partial \mathcal{T}}{\partial q} + \frac{\partial \mathcal{U}}{\partial q} = \tau
+		\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right) - \left(\frac{\partial \mathcal{L}}{\partial q}\right) = \tau
+		\Rightarrow
+		\frac{d}{dt} \left(\frac{\partial \mathcal{T}}{\partial \dot{q}} \right) - \frac{\partial \mathcal{T}}{\partial q} + \frac{\partial \mathcal{U}}{\partial q} = \tau
 	$
 	with total gen. ext. forces $\tau$
 
@@ -599,26 +599,26 @@
 	Knowing $r_{S_i}$ to the Center of Mass of each body, we can calculate gravitational forces (Zero energy level can be choosen arbitrarily):
 	$$F_{g_i}= m_i\cdot g\cdot {}_\mathcal{I}e_g \Rightarrow \mathcal{U}_g= -\sum_{i=1}^{n_b} r_{S_i}^TF_{g_i}$$
 
-	Potential energy for elastic elements:
+	\textbf{Potential energy for elastic elements}:
 	$\mathcal{U}_{E_j} = \frac{1}{2} k_j\underbrace{(d(q)-d_0)}_{\text{deflection}}{}^2$\\
-	with i.e, the current length of the spring $d(q)$ \& resting length $d_0$.
+	and $F_j = k_j(d(q) - d_0) \frac{d(q)- d_0}{\| d(q) - d_0\|} $, with the current length of the spring $d(q)$ \& resting length $d_0$.
 
 
 	\subsection{Projected Euler Method}
 	$\left[\begin{smallmatrix}
-			v_s \\ \Omega
-	\end{smallmatrix}\right] = 
-	\left[\begin{smallmatrix}
-		J_P \\ J_R
-	\end{smallmatrix}\right] \dot{q} \qquad
-	\left[\begin{smallmatrix}
-		a_s \\ \Psi
-	\end{smallmatrix}\right] = 
-	\left[\begin{smallmatrix}
-		J_P \\ J_R
-	\end{smallmatrix}\right] \ddot{q} + \left[\begin{smallmatrix}
-		\dot{J}_P \\ \dot{J}_R
-	\end{smallmatrix}\right] \dot{q}$
+				v_s \\ \Omega
+			\end{smallmatrix}\right] =
+		\left[\begin{smallmatrix}
+				J_P \\ J_R
+			\end{smallmatrix}\right] \dot{q} \qquad
+		\left[\begin{smallmatrix}
+				a_s \\ \Psi
+			\end{smallmatrix}\right] =
+		\left[\begin{smallmatrix}
+				J_P \\ J_R
+			\end{smallmatrix}\right] \ddot{q} + \left[\begin{smallmatrix}
+				\dot{J}_P \\ \dot{J}_R
+			\end{smallmatrix}\right] \dot{q}$
 
 	Rotate Inertia Tensor: ${}_\mathcal{I}\Theta = C_\mathcal{IB}\cdot {}_\mathcal{B}\Theta \cdot C_\mathcal{IB}^T$
 
@@ -626,7 +626,7 @@
 	\begin{equation*}\begin{split}
 			b  = \sum_{i=1}^{n_b}( & {}_\mathcal{A}J_{S_i}^T m {}_\mathcal{A}\dot{J}_{S_i}\dot{q}
 			\\ & + {}_\mathcal{B}J_{R_i}^T({}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\dot{J}_{R_i}\cdot \dot{q} +
-			 \underbrace{{}_\mathcal{B}\Omega_{S_i}\times {}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\Omega_{S_i}}_{J_{R_i}\dot{q} \times {}_\mathcal{B}\Theta_{S_i} J_{R_i}\dot{q} = 0 \text{ in 2D} } ))
+			\underbrace{{}_\mathcal{B}\Omega_{S_i}\times {}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\Omega_{S_i}}_{J_{R_i}\dot{q} \times {}_\mathcal{B}\Theta_{S_i} J_{R_i}\dot{q} = 0 \text{ in 2D} } ))
 		\end{split}\end{equation*}
 	$\displaystyle g = \sum_{i=1}^{n_b}(-{}_\mathcal{A}J_{S_i}^T\cdot {}_\mathcal{A}F_{g,i})$
 
@@ -662,7 +662,8 @@
 
 	\subsection{Task-Space Dynamic Control}
 	To move to a specific point in Task-Space (Fixed Frame) we need the linear and rotational acceleration of the end-effector:
-	$$\dot{w}_e= \begin{pmatrix}\ddot{r}  \\\dot{\omega}\end{pmatrix} = J_e\ddot{q} +\dot{J_e}\dot{q}$$
+	$$\dot{w}_e= \begin{pmatrix}\ddot{r}  \\\dot{\omega}\end{pmatrix} = J_e\ddot{q} +\dot{J_e}\dot{q} \Rightarrow \ddot{q}^* = J_e^+\left(w^* - \dot{J}_e \dot{q}\right)$$
+
 	\subsubsection{Multi-task}
 	Similar to kinematics, we can fulfill multiple tasks:
 	$$\ddot{q}=\begin{bmatrix}J_1 \\ \vdots \\ J_{n_t}\end{bmatrix}^+ \left( \begin{bmatrix}\dot{w}_1 \\ \vdots\\ \dot{w}_{n_t}\end{bmatrix}-\begin{bmatrix}\dot{J}_1 \\ \vdots \\ \dot{J}_{n_t}\end{bmatrix}\dot{q}\right)$$
@@ -680,6 +681,7 @@
 	\textbf{End-Effector Motion Control}
 
 	From the above Dynamics, we can get an inversion motion control, like in the joint space:
+	$$\dot{w}_e = k_p \underbrace{E\left(\chi_e^* - \chi_e\right)}_{\text{for rotations} = \text{rotVec}\left(C_i^* C_i^{T}\right)} + k_d\left(w_e^* - w_e\right) + \dot{w}_e(t)$$
 	$$\tau^* = \hat{J}^T(\hat{\Lambda}_e\dot{w}_e^*+\hat{\mu}+\hat{p})$$
 	together with a control law: $$\dot{w}_e^* = k_p \begin{pmatrix} r_e^*-r_e \\\Delta \phi_e\end{pmatrix}+k_d(w_e^*-w_e)$$
 	For small errors we can approximate: $$\scriptstyle \begin{pmatrix} r_e^*-r_e \\\Delta \phi_e\end{pmatrix} = \begin{pmatrix}\mathbbm{1} & 0 \\ 0 &E_R\end{pmatrix} \begin{pmatrix} r^*-r \\\chi_R^* -\chi_R\end{pmatrix}$$
@@ -716,11 +718,11 @@
 	This has always to be fulfilled, and can be extended by additional objectives.
 
 	It can be solves as single (stacked) tasks:
-	$$\min_{q,\tau}\left\Vert \begin{bmatrix} M & -\mathbbm{1} \\ J_e & 0\end{bmatrix} \begin{pmatrix}\ddot{q} \\ \tau\end{pmatrix}- \begin{pmatrix}-b-g \\ \dot{w}_e^*-\dot{J}_e\dot{q} \end{pmatrix}\right\Vert_2$$
+	$$\min_{\ddot{q},\tau}\left\Vert \begin{bmatrix} M & -\mathbbm{1} \\ J_e & 0\end{bmatrix} \begin{pmatrix}\ddot{q} \\ \tau\end{pmatrix}- \begin{pmatrix}-b-g \\ \dot{w}_e^*-\dot{J}_e\dot{q} \end{pmatrix}\right\Vert_2$$
 
 	Or with different priorities:
 	$$\begin{array}{c}
-			\displaystyle\min_{q,\tau}\left\Vert \begin{bmatrix}J_e & 0\end{bmatrix} \begin{pmatrix}\ddot{q} \\ \tau\end{pmatrix}- \begin{pmatrix} \dot{w}_e^*-\dot{J}_e\dot{q} \end{pmatrix}\right\Vert_2 \\
+			\displaystyle\min_{\ddot{q},\tau}\left\Vert \begin{bmatrix}J_e & 0\end{bmatrix} \begin{pmatrix}\ddot{q} \\ \tau\end{pmatrix}- \begin{pmatrix} \dot{w}_e^*-\dot{J}_e\dot{q} \end{pmatrix}\right\Vert_2 \\
 			\text{such that:} \begin{bmatrix} M & -\mathbbm{1} \end{bmatrix} \begin{pmatrix}\ddot{q} \\ \tau\end{pmatrix}- \begin{pmatrix}-b-g \end{pmatrix}=0
 		\end{array}$$
 
@@ -770,7 +772,11 @@
 	where multiple $J_{C_i}$ can be stacked for multiple contact points.
 
 	\smallskip
-	The $rank(J_c)$ indicates the number of independent contact constraints. The stacked $J_c$ can be split in a body and joint part: $$J_c = [J_{c,b} \, J_{c,j}]$$
+	The $rank(J_c)$ indicates the number of independent contact constraints. The stacked $J_c$ can be split in a body and joint part:
+	$$J_c = \left[J_{c,b} \, J_{c,j}\right] = \left[\begin{smallmatrix}
+				\frac{\partial r_c}{\partial q_b} & \frac{\partial r_c}{\partial q_j}
+			\end{smallmatrix} \right]
+		\in \mathbb{R}^{n_c \times (n_b + n_j)}$$
 	If the rank of $J_{c,b}$ has full rank (=6 in 3D), the joints can move the body in every direction. The difference $rank(J_c)-rank(J_{c,b})$ is the number of \textbf{internal kinematic constraints} (i.e. legs can move in respect to each other).
 	\subsubsection{Inverse Kinematics}
 
