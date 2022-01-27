@@ -189,6 +189,9 @@
 			\text{atan2}(c_{32}, c_{33})
 		\end{pmatrix}
 	$$
+	
+	Proper Euler Angles: first and last around same axis \\
+	Tait Bryan = Roll-Pitch-Yaw = ZYX, Cardan = XYZ
 
 	% Euler Angles describe a rotation as a sequence of 3 elementary rotations. When the first and the last rotations are made around the same axis, the parametrisation is called \textbf{proper Euler angles}. For three different Axis we typically refer to \textit{Tait-Bryan}, \textit{Cardan} or \textit{roll-pitch-yaw} angles.
 
@@ -198,7 +201,7 @@
 	Rotation Matrix from Angle Axis:
 	$$ C_{AB} = \cos(\theta) I_{3\times3} - \sin(\theta) [n]_\times  + (1- \cos(\theta)) nn^T $$
 
-	Parameters from Rotation Matrix:
+	Parameters from Rotation Matrix ($\|n\| = 1$, singularity = $\pi / 2$):
 	$$ \theta = \cos^{-1} \left( \frac{c_{11} + c_{22} + c_{33} - 1}{2} \right);
 		n = \frac{1}{2\sin(\theta)}
 		\begin{pmatrix}
@@ -213,8 +216,8 @@
 	From rotation vector $\varphi \in \mathbb{R}^3$ to unit quaternion:
 	$$\chi_{R,quat}= \xi =\begin{pmatrix}\xi_0 \\ \check{\xi}\end{pmatrix} =
 		\begin{pmatrix}
-			cos(\frac{\theta}{2}) \\
-			sin(\frac{\theta}{2}) \overrightarrow{n}
+			cos(\textcolor{red}{\frac{\theta}{2}}) \\
+			sin(\textcolor{red}{\frac{\theta}{2}}) \overrightarrow{n}
 		\end{pmatrix} =
 		\begin{pmatrix}\xi_0 \\ \xi_1 \\ \xi_2 \\ \xi_3 \end{pmatrix}$$
 
@@ -281,7 +284,7 @@
 	\subsection{Angular Velocity}
 	Consider Frame $\mathcal{B}$ which is moving with respect to fixed Frame $\mathcal{A}$. The angular velocity of the rotation of $\mathcal{B}$ w.r.t $\mathcal{A}$ is ${}_\mathcal{A}\omega_\mathcal{AB}$.
 
-	It can be shown that: $$ [{}_\mathcal{A}\omega_\mathcal{AB}]_\times=\dot{C}_\mathcal{AB}\cdot C_\mathcal{AB}^T \qquad \omega_\mathcal{AB} = -\omega_\mathcal{BA}$$
+	$$ [{}_\mathcal{A}\omega_\mathcal{AB}]_\times=\dot{C}_\mathcal{AB}\cdot C_\mathcal{AB}^T \qquad \omega_\mathcal{AB} = -\omega_\mathcal{BA}$$
 	with $ [{}_\mathcal{A}\omega_\mathcal{AB}]_\times =
 		\left(\begin{smallmatrix}
 				0 & -\omega_z & \omega_y \\
@@ -323,7 +326,7 @@
 
 	We can write the Position P as:
 	$${}_\mathcal{A}r_{AP}={}_\mathcal{A}r_{AB}+C_\mathcal{AB}\cdot {}_\mathcal{B}r_{BP}$$
-	Which can be differentiated to:
+	Which can be differentiated to (using $\dot{C}_AB = [{}_\mathcal{A} \omega_{AB}]_{\times} * C_{AB}$):
 	$${}_\mathcal{A}\dot{r}_{AP}={}_\mathcal{A}\dot{r}_{AB}+{}_\mathcal{A}\omega_\mathcal{AB}\times {}_\mathcal{A}r_{BP}$$
 
 	This is the famous \textbf{Rigid Body Formulation} for velocities:
@@ -370,7 +373,7 @@
 		\end{bmatrix}$$
 
 	\subsubsection{Differential Kinematics and Analytical Jacobian}
-	To linearise the forward kinematics we use a first order approximation:
+	To linearise the forward kinematics we use a first order approximation ($m$ depends on parameterization):
 	$$\Delta \chi_e \approx J_{eA}(q)\, \Delta q, \quad J_{eA}(q)=
 		\left[\begin{smallmatrix}
 				\frac{\partial \chi_1}{\partial q_1} & \dots & \frac{\partial \chi_1}{\partial q_{n_j}}\\
@@ -388,10 +391,12 @@
 			\frac{\partial \chi_{eP}}{\partial q} \\
 			\frac{\partial \chi_{eR}}{\partial q}
 		\end{bmatrix}
+		\hspace{0.5mm}
+		\in \mathbb{R}^{m_e \times n_j}
 	$$
 	\subsubsection{Geometric or Basic Jacobian}
 	The geometric or basic Jacobian relates the generalized velocity $\dot{q}$ to the end-effector velocity (linear $v_e$ and angular $\omega_e$):
-	$$w_e = \begin{pmatrix}v_e \\ \omega_e\end{pmatrix} = J_{e0}(q)\cdot \dot{q}$$
+	$$w_e = \begin{pmatrix}v_e \\ \omega_e\end{pmatrix} = J_{e0}(q)\cdot \dot{q} \hspace{0.5cm} J_{e0} \in \mathbb{R}^{6 \times n_j} (3D)$$
 	Note: In the most general cases $J_{e0}$ has dimension $6\times n_j$ and has Frame $\mathcal{A}$ as a basis (like the velocity).
 	From the velocities $w_\mathcal{C} = w_\mathcal{B} + w_\mathcal{BC}$ we can derive, that geometric Jacobians can simply be added (in the same reference):
 	$${}_\mathcal{A}J_\mathcal{C} = {}_\mathcal{A}J_\mathcal{B} +{}_\mathcal{A}J_\mathcal{BC}$$
@@ -408,7 +413,8 @@
 			{}_\mathcal{I}n_1 \times {}_\mathcal{I}r_{1(n+1)} & \dots & {}_\mathcal{I}n_n \times {}_\mathcal{I}r_{n(n+1)} \\
 			{}_\mathcal{I}n_1                                 & \dots & {}_\mathcal{I}n_n
 		\end{bmatrix}$$
-	where $n_k$ represents the rotation axis of joint k such that: $$\omega_{(k-1)k} = n_k \dot{q}_k$$
+	where $n_k$ represents the rotation axis of joint k such that: 
+	$$\omega_{(k-1)k} = n_k \dot{q}_k \hspace{1cm} {}_\mathcal{I}n_k = C_{\mathcal{I}(k-1)} * {}_{k-1}n_k$$
 	and $r_{1(n+1)} \dots r_{n(n+1)}$ represent the position vector from the joint $1 \dots n$ to the end-effector.
 
 	\textcolor{red}{Don't forget to transform to inertial frame!}
@@ -454,7 +460,7 @@
 	$$N=\mathbbm{1}-J_{e0}^+J_{e0}$$
 
 	\subsubsection{Multi-task Inverse Differential Kinematic Control}
-	For multiple tasks (same priority) $task_i := \{ J_i, w_i^*\}$ we can calculate the velocity:
+	For multiple tasks (same priority) $task_i := \{ J_i, w_i^*\}$ we can calculate the velocity (least square if row rank $>$ col rank):
 	$$\dot{q} = \underbrace{\begin{bmatrix} J_1 \\ \vdots \\ J_{n_t}\end{bmatrix}^+}_{\Bar{J}} \cdot\underbrace{\begin{bmatrix} w_1^* \\ \vdots \\ w_{n_t}^*\end{bmatrix}}_{\Bar{w}}$$
 	For weighted tasks we could use a weighted pseudo inverse:
 
@@ -506,13 +512,13 @@
 	\smallskip
 	\textbf{Shortest Path rotation}
 
-	For a straight rotation along the "shortest path", we rotate along the rotation vector $\Delta \varphi$.
+	For a straight rotation along the "shortest path", we rotate along the rotation vector $\Delta \varphi$ ($\rightarrow$ rot parameterization affects convergence, axis angle = shortest rot path).
 
 	The rotation Matrix is given by: $$C_\mathcal{AB}(\Delta\varphi)=C_\mathcal{IA}(\varphi^t)^TC_\mathcal{IB}(\varphi^*)$$
 	\begin{flushright}(Note that $\Delta\varphi \neq \varphi^*-\varphi^t$)\end{flushright}
-	The rotation vector is the same in both frames A \& B. $${}_\mathcal{A}\Delta\varphi = {}_\mathcal{B}\Delta\varphi = \text{rotVec}(C_\mathcal{AB})$$
+	The rotation vector is the same in both frames A \& B. $${}_\mathcal{A}\Delta\varphi = {}_\mathcal{B}\Delta\varphi = \text{rotVec}(C_\mathcal{AB}) \rightarrow \Delta \varphi = \theta * n$$
 	Instead of mapping this vector into $\mathcal{I}$, we can derive it directly:
-	$${}_\mathcal{I}\Delta\varphi = \text{rotVec}(C_\mathcal{IB}C_\mathcal{IA}^T)$$
+	$${}_\mathcal{I}\Delta\varphi = C_\mathcal{IA} \text{rotVec}(C_\mathcal{IB}) =  \text{rotVec}(C_\mathcal{IB}C_\mathcal{IA}^T)$$
 
 	Now we can change the update step 6 of the algorithm to:
 	$$q \leftarrow q + k_{p_R}{}_\mathcal{I}J^+_{e0_R}{}_\mathcal{I}\Delta\varphi$$
@@ -597,7 +603,7 @@
 		$\mathcal{T}(q,\dot{q}) = \frac{1}{2} \dot{q}^T \underbrace{ \left( \sum_{i=1}^{n_b} (J_{S_i}^T m_iJ_{S_i} + J_{R_i}^T \Theta_{S_i}J_{R_i})\right)}_{M(q)}\dot{q} \Rightarrow \frac{\partial \mathcal{T}}{\partial \dot{q}} = M \dot{q}$
 	}
 	\subsubsection{Potential Energy}
-	Knowing $r_{S_i}$ to the Center of Mass of each body, we can calculate gravitational forces (Zero energy level can be chosen arbitrarily):
+	$r_{S_i}$ to CoM of each body (Zero energy level arbitrary):
 	$$F_{g_i}= m_i\cdot g\cdot {}_\mathcal{I}e_g \Rightarrow \mathcal{U}_g= -\sum_{i=1}^{n_b} r_{S_i}^TF_{g_i}$$
 
 	\textbf{Potential energy for elastic elements}:
@@ -621,9 +627,10 @@
 				\dot{J}_P \\ \dot{J}_R
 			\end{smallmatrix}\right] \dot{q}$
 
-	Rotate Inertia Tensor: ${}_\mathcal{I}\Theta = C_\mathcal{IB}\cdot {}_\mathcal{B}\Theta \cdot C_\mathcal{IB}^T$
+	Rotate Inertia Tensor: ${}_\mathcal{I}\Theta = C_\mathcal{IB}\cdot {}_\mathcal{B}\Theta \cdot C_\mathcal{IB}^T$ \\
+	% $M \in \mathcal{R}^{n_q \times n_q} \hspace{0.5cm} b \in \mathcal{R}^{n_q} \hspace{0.5cm} g \in \mathcal{R}^{n_q}$
 
-	$\displaystyle M  = \sum_{i=1}^{n_b}\left({}_\mathcal{A}J_{S_i}^T\cdot m\cdot  {}_\mathcal{A}J_{S_i}+{}_\mathcal{B}J_{R_i}^T\cdot{}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}J_{R_i}\right)$\\
+	$\displaystyle M  = \sum_{i=1}^{n_b}\left({}_\mathcal{A}J_{S_i}^T\cdot m\cdot  {}_\mathcal{A}J_{S_i}+{}_\mathcal{B}J_{R_i}^T\cdot{}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}J_{R_i}\right) (\mathcal{R}^{n_q \times n_q})$\\
 	\begin{equation*}\begin{split}
 			b  = \sum_{i=1}^{n_b}( & {}_\mathcal{A}J_{S_i}^T m {}_\mathcal{A}\dot{J}_{S_i}\dot{q}
 			\\ & + {}_\mathcal{B}J_{R_i}^T({}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\dot{J}_{R_i}\cdot \dot{q} +
@@ -633,12 +640,13 @@
 
 
 	\subsubsection{External Forces \& Actuation}
-	For known Forces $F_j$ acting on the system, we can calculate the generalized forces $\tau_{F,ext}$ (due to the external force).
+	known Forces $F_j$ on system $\rightarrow$ generalized forces $\tau_{F,ext}$ (due external force)
 	$$\tau_{F,ext} = \sum J_{P,j}^T F_j$$
 	with the translational (geometric) Jacobian of Point j (i.e. $J_e$ for end effector)
 
 	Similar for external Torques $T_j$:
 	$\displaystyle \tau_{T,ext} = \sum J_{R,j}^TT_{j}$
+	Motor Torque: $\tau_{a, k} = (J_{S_k} - J_{S_{k-1}})^T F_{a_k} + (J_{R_k} - J_{R_{k-1}})^T T_{a_k}$
 
 	\subsection{Joint-Space Dynamic Control}
 	\textbf{Joint Impedance Regulation}
@@ -663,12 +671,12 @@
 
 	\subsection{Task-Space Dynamic Control}
 	To move to a specific point in Task-Space (Fixed Frame) we need the linear and rotational acceleration of the end-effector:
-	$$\dot{w}_e= \begin{pmatrix}\ddot{r}  \\\dot{\omega}\end{pmatrix} = J_e\ddot{q} +\dot{J_e}\dot{q} \Rightarrow \ddot{q}^* = J_e^+\left(w^* - \dot{J}_e \dot{q}\right)$$
+	$$\dot{w}_e= \begin{pmatrix}\ddot{r}  \\\dot{\omega}\end{pmatrix} = J_e\ddot{q} +\dot{J_e}\dot{q} \Rightarrow \ddot{q}^* = J_e^+\left(w^* - \dot{J}_e \dot{q}\right) \rightarrow \tau = ...$$
 
 	\subsubsection{Multi-task}
 	Similar to kinematics, we can fulfill multiple tasks:
 	$$\ddot{q}=\begin{bmatrix}J_1 \\ \vdots \\ J_{n_t}\end{bmatrix}^+ \left( \begin{bmatrix}\dot{w}_1 \\ \vdots\\ \dot{w}_{n_t}\end{bmatrix}-\begin{bmatrix}\dot{J}_1 \\ \vdots \\ \dot{J}_{n_t}\end{bmatrix}\dot{q}\right)$$
-	and the recursive algorithm:
+	and the recursive algorithm (hierarchical):
 	$$\dot{q}= \sum_{i=1}^{n_t}\Bar{N}_i\dot{q}_i \text{ with } \ddot{q}_i = (J_i\Bar{N}_i)^+\left( w_i^* -\dot{J_i}\dot{q}- J_i \sum_{k=1}^{i-1}\Bar{N}_k\ddot{q}_k\right)$$
 
 	\subsubsection{End-Effector Dynamics}
@@ -801,7 +809,7 @@
 	We can define a Null-space matrix for the contact constraints:
 	$$N_c = \mathbbm{1} - M^{-1}J_c^T(J_cM^{-1}J_c^T)^{-1} J_c$$
 	This gives the following equations of motion, which are reduced, but \textbf{consistent with the constraints} (contact forces):
-	$$N_c^T(M\dot{u}+b+g)=N_c^TS^T\tau$$
+	$$N_c^T(M\dot{u}+b+g)=N_c^TS^T\tau \Leftrightarrow \textcolor{red}{J_c N_c = 0}$$
 
 	\subsubsection{FB Inverse Dynamics}
 	With a desired $\dot{u}^*_{consistent}$ We can invert the equation of motion of above:
