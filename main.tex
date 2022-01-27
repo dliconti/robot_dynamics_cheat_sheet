@@ -1082,7 +1082,9 @@
 		$\Rightarrow u_1=u_2$
 
 		\smallskip
-		$F_{\textit{Thrust}} = \rho A_R(V+u_1)u_3$
+		$F_{\textit{Thrust}} 
+		= \rho A_R(V+u_1)u_3
+		= 2\rho A_R(V+u_1)u_1 $
 
 		$P_{\textit{Thrust}} = F_{\textit{Thrust}}(V+u_1) $
 
@@ -1100,7 +1102,7 @@
 
 	Combining $P=F_{\textit{Thrust}}(\overbrace{V}^{=0}+u_1)$ with $F_{\textit{Thrust}}=2\rho A_Ru_1^2$ gives the ideal Power to Hover:
 	$$P=\frac{F_{\textit{Thrust}}^{3/2}}{\sqrt{2\rho A_R}} = \frac{(mg)^{3/2}}{\sqrt{2\rho A_R}} \text{ with } F_{\textit{Thrust}} = mg$$
-	The Power depends on the \textbf{Disc Loading} $F_{\textit{Thrust}}/A_R$
+	The Power depends on the \textbf{Disc Loading} $:=F_{\textit{Thrust}}/A_R$
 
 	\smallskip
 	\textbf{Defining the rotor efficiency, Figure of Merit}, $FM$\\
@@ -1184,6 +1186,7 @@
 		\item[Body-fixed frame:]X-Axis: out of the nose;
 		      Y-Axis: out of the \textbf{right} wing;
 		      Z-Axis: Downwards; The Orientation of the Body Frame is describes as usual in Euler Angles with roll, pitch and yaw $\rightarrow \phi, \theta,\psi$.
+			  $\quad C_\mathcal{IB} = C_{\mathcal{I}1}(\psi)C_{\mathcal{I}2}(\theta)C_{2\mathcal{B}}(\phi)$
 	\end{description}
 
 	\textbf{Control Surfaces:} The standard Control surfaces are \textbf{Elevator} (pitch), \textbf{Aileron} (roll), \textbf{Rudder} (yaw).
@@ -1199,15 +1202,22 @@
 	\subsection{Fixed Wing Dynamics}
 	\subsubsection{Forces}
 
-	\textbf{Non Aerodynamics:} Weight, Propeller Thrust.
+	\textbf{Non Aerodynamics:} Weight at CoG $(mg)$, Propeller Thrust $T$.
 
-	\textbf{Aerodynamic:} $$\text{Lift: }L=\frac{1}{2}\rho V^2Sc_L, \quad \text{Drag: } D=\frac{1}{2}\rho V^2Sc_D $$ with surface $S$.
-
+	\textbf{Aerodynamic:} 
+	$$\text{Lift: }L=\frac{1}{2}\rho V^2Sc_L, \quad \text{Drag: } D=\frac{1}{2}\rho V^2Sc_D $$ with surface $S$.
 	Note: $c_L$ and $c_D$ are dependent on $\alpha$, Side-Forces: assumed zero
 
+	\textbf{Moments:} (Rolling, Pitching, Yawing)
+	$$\ L_m = \frac{1}{2} \rho V^2 S b c_l  \quad M_m = \frac{1}{2} \rho V^2 S \bar{c} C_m \quad  N_m = \frac{1}{2} \rho V^2 S b c_n$$
+
 	\subsubsection{Equations of Motion, ($I_{xz}$ is typically small)}
+	\resizebox*{0.94\hsize}{!}{
+	constant wind :$\frac{d}{dt}({}_\mathcal{I}v = {}_\mathcal{I}v_a + {}_\mathcal{I}v_w) = \frac{d}{dt}({}_\mathcal{I}v_a); \; \dot{\Theta} = E_r(\Theta)^{-1} {}_\mathcal{B}\omega$
+	}
 	$${}_\mathcal{B}\dot{v}_a= \frac{1}{m}\sum{}_\mathcal{B}F - {}_\mathcal{B}\omega \times {}_\mathcal{B}v_a, \quad {}_\mathcal{I}\dot{r}=C_\mathcal{IB} {}_\mathcal{B}v_a+{}_\mathcal{I}v_w$$
-	$${}_\mathcal{B}\dot{\omega}={}_\mathcal{B}I^{-1}\left(\sum {}_\mathcal{B}M -{}_\mathcal{B}\omega \times ({}_\mathcal{B}I{}_\mathcal{B}\omega)\right), \; {}_\mathcal{B}I = \left[\begin{smallmatrix}I_{xx} & 0 & I_{xz}\\ 0 & I_{yy} & 0 \\ I_{xz} & 0 & I_{zz}\end{smallmatrix}\right]$$
+	$${}_\mathcal{B}\dot{\omega}={}_\mathcal{B}I^{-1}\left(\sum {}_\mathcal{B}M -{}_\mathcal{B}\omega \times ({}_\mathcal{B}I{}_\mathcal{B}\omega)\right); \; {}_\mathcal{B}I = \left[\begin{smallmatrix}I_{xx} & 0 & I_{xz}\\ 0 & I_{yy} & 0 \\ I_{xz} & 0 & I_{zz}\end{smallmatrix}\right]$$
+
 
 	\subsection{Cascaded Control Loops}
 	\subsubsection{Steady Level Turning}
