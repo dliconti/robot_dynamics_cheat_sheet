@@ -593,10 +593,11 @@
 
 	With the Jacobian relations $\dot{r}_{S_i} = J_{S_i}\dot{q}, \quad \Omega_{S_i} = J_{R_i}\dot{q} $ we can rewrite this:
 
-	$$\mathcal{T}(q,\dot{q}) = \frac{1}{2} \dot{q}^T \underbrace{ \left( \sum_{i=1}^{n_b} (J_{S_i}^T mJ_{S_i} + J_{R_i}^T \Theta_{S_i}J_{R_i})\right)}_{M(q)}\dot{q}$$
-
+	\resizebox{\hsize}{!}{
+		$\mathcal{T}(q,\dot{q}) = \frac{1}{2} \dot{q}^T \underbrace{ \left( \sum_{i=1}^{n_b} (J_{S_i}^T m_iJ_{S_i} + J_{R_i}^T \Theta_{S_i}J_{R_i})\right)}_{M(q)}\dot{q} \Rightarrow \frac{\partial \mathcal{T}}{\partial \dot{q}} = M \dot{q}$
+	}
 	\subsubsection{Potential Energy}
-	Knowing $r_{S_i}$ to the Center of Mass of each body, we can calculate gravitational forces (Zero energy level can be choosen arbitrarily):
+	Knowing $r_{S_i}$ to the Center of Mass of each body, we can calculate gravitational forces (Zero energy level can be chosen arbitrarily):
 	$$F_{g_i}= m_i\cdot g\cdot {}_\mathcal{I}e_g \Rightarrow \mathcal{U}_g= -\sum_{i=1}^{n_b} r_{S_i}^TF_{g_i}$$
 
 	\textbf{Potential energy for elastic elements}:
@@ -622,13 +623,13 @@
 
 	Rotate Inertia Tensor: ${}_\mathcal{I}\Theta = C_\mathcal{IB}\cdot {}_\mathcal{B}\Theta \cdot C_\mathcal{IB}^T$
 
-	$\displaystyle M  = \sum_{i=1}^{n_b}({}_\mathcal{A}J_{S_i}^T\cdot m\cdot  {}_\mathcal{A}J_{S_i}+{}_\mathcal{B}J_{R_i}^T\cdot{}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}J_{R_i})$\\
+	$\displaystyle M  = \sum_{i=1}^{n_b}\left({}_\mathcal{A}J_{S_i}^T\cdot m\cdot  {}_\mathcal{A}J_{S_i}+{}_\mathcal{B}J_{R_i}^T\cdot{}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}J_{R_i}\right)$\\
 	\begin{equation*}\begin{split}
 			b  = \sum_{i=1}^{n_b}( & {}_\mathcal{A}J_{S_i}^T m {}_\mathcal{A}\dot{J}_{S_i}\dot{q}
 			\\ & + {}_\mathcal{B}J_{R_i}^T({}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\dot{J}_{R_i}\cdot \dot{q} +
 			\underbrace{{}_\mathcal{B}\Omega_{S_i}\times {}_\mathcal{B}\Theta_{S_i}\cdot {}_\mathcal{B}\Omega_{S_i}}_{J_{R_i}\dot{q} \times {}_\mathcal{B}\Theta_{S_i} J_{R_i}\dot{q} = 0 \text{ in 2D} } ))
 		\end{split}\end{equation*}
-	$\displaystyle g = \sum_{i=1}^{n_b}(-{}_\mathcal{A}J_{S_i}^T\cdot {}_\mathcal{A}F_{g,i})$
+	$\displaystyle g = \sum_{i=1}^{n_b}\left(-{}_\mathcal{A}J_{S_i}^T\cdot {}_\mathcal{A}F_{g,i}\right)$
 
 
 	\subsubsection{External Forces \& Actuation}
@@ -1082,9 +1083,9 @@
 		$\Rightarrow u_1=u_2$
 
 		\smallskip
-		$F_{\textit{Thrust}} 
-		= \rho A_R(V+u_1)u_3
-		= 2\rho A_R(V+u_1)u_1 $
+		$F_{\textit{Thrust}}
+			= \rho A_R(V+u_1)u_3
+			= 2\rho A_R(V+u_1)u_1 $
 
 		$P_{\textit{Thrust}} = F_{\textit{Thrust}}(V+u_1) $
 
@@ -1186,7 +1187,7 @@
 		\item[Body-fixed frame:]X-Axis: out of the nose;
 		      Y-Axis: out of the \textbf{right} wing;
 		      Z-Axis: Downwards; The Orientation of the Body Frame is describes as usual in Euler Angles with roll, pitch and yaw $\rightarrow \phi, \theta,\psi$.
-			  $\quad C_\mathcal{IB} = C_{\mathcal{I}1}(\psi)C_{\mathcal{I}2}(\theta)C_{2\mathcal{B}}(\phi)$
+		      $\quad C_\mathcal{IB} = C_{\mathcal{I}1}(\psi)C_{\mathcal{I}2}(\theta)C_{2\mathcal{B}}(\phi)$
 	\end{description}
 
 	\textbf{Control Surfaces:} The standard Control surfaces are \textbf{Elevator} (pitch), \textbf{Aileron} (roll), \textbf{Rudder} (yaw).
@@ -1204,7 +1205,7 @@
 
 	\textbf{Non Aerodynamics:} Weight at CoG $(mg)$, Propeller Thrust $T$.
 
-	\textbf{Aerodynamic:} 
+	\textbf{Aerodynamic:}
 	$$\text{Lift: }L=\frac{1}{2}\rho V^2Sc_L, \quad \text{Drag: } D=\frac{1}{2}\rho V^2Sc_D $$ with surface $S$.
 	Note: $c_L$ and $c_D$ are dependent on $\alpha$, Side-Forces: assumed zero
 
@@ -1213,7 +1214,7 @@
 
 	\subsubsection{Equations of Motion, ($I_{xz}$ is typically small)}
 	\resizebox*{0.94\hsize}{!}{
-	constant wind :$\frac{d}{dt}({}_\mathcal{I}v = {}_\mathcal{I}v_a + {}_\mathcal{I}v_w) = \frac{d}{dt}({}_\mathcal{I}v_a); \; \dot{\Theta} = E_r(\Theta)^{-1} {}_\mathcal{B}\omega$
+		constant wind :$\frac{d}{dt}({}_\mathcal{I}v = {}_\mathcal{I}v_a + {}_\mathcal{I}v_w) = \frac{d}{dt}({}_\mathcal{I}v_a); \; \dot{\Theta} = E_r(\Theta)^{-1} {}_\mathcal{B}\omega$
 	}
 	$${}_\mathcal{B}\dot{v}_a= \frac{1}{m}\sum{}_\mathcal{B}F - {}_\mathcal{B}\omega \times {}_\mathcal{B}v_a, \quad {}_\mathcal{I}\dot{r}=C_\mathcal{IB} {}_\mathcal{B}v_a+{}_\mathcal{I}v_w$$
 	$${}_\mathcal{B}\dot{\omega}={}_\mathcal{B}I^{-1}\left(\sum {}_\mathcal{B}M -{}_\mathcal{B}\omega \times ({}_\mathcal{B}I{}_\mathcal{B}\omega)\right); \; {}_\mathcal{B}I = \left[\begin{smallmatrix}I_{xx} & 0 & I_{xz}\\ 0 & I_{yy} & 0 \\ I_{xz} & 0 & I_{zz}\end{smallmatrix}\right]$$
