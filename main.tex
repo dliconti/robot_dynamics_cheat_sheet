@@ -816,7 +816,12 @@
 	$$\tau^* = (N_c^TS^T)^+N_c^T(M\dot{u}^*+b+g) +\mathcal{N}(Nc^TS^T)\tau_0^*$$
 	When taking only the first part without a Nullspace ($\tau_0^* = 0$), the solution is the least square minimal torque $\tau^*$ that fullfils the EoM.
 
-
+    \subsubsection{FB Quadratic Programming}
+	Objective: $\min_x \| A_i x - b_i \|_2 \hspace{3mm} x = 
+	\left( \begin{smallmatrix} \dot{u} \\ F_c \\ \tau \end{smallmatrix} \right)$ for different tasks: \\
+	Motion Task: $J\dot{u}+\dot{J}u = \dot{\omega^*} \Rightarrow A=[J_i,0,0] \hspace{5mm} b=\omega^*-\dot{J}u$ \\
+	Force Task: $F_i = F_i^* \Rightarrow A=[0,\mathcal{I},0] \hspace{5mm} b=F_i^*$ \\
+	Torque Task: $ \min \| \tau \| \Rightarrow A=[0,0,\mathcal{I}] \hspace{5mm} b=0$
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%   _____           _   _               _  _   
@@ -856,12 +861,13 @@
 
 	\smallskip
 	\textbf{Rotation:}\\
-	$\begin{pmatrix}\phi \\ \theta \\\psi\end{pmatrix}=\begin{pmatrix}Roll \\ Pitch \\ Yaw\end{pmatrix} \rightarrow \begin{pmatrix}x Axis \\ y Axis \\ z Axis\end{pmatrix} $ with the known rot. matrices.
+	$\begin{pmatrix}\phi \\ \theta \\\psi\end{pmatrix}=\begin{pmatrix}Roll \\ Pitch \\ Yaw\end{pmatrix} \rightarrow \begin{pmatrix}x Axis \\ y Axis \\ z Axis\end{pmatrix} \in \begin{pmatrix} [-\pi, \pi]\\ [\pi/2, \pi/2] \\ [\pi, \pi]\end{pmatrix}$ 
 
 	\smallskip
-	This can be used for a equation for the rotational speed:
+	Equation for the rotational speed (singularity at $\theta = \pi/2$): 
+	${}_\mathcal{B}\omega = {}_\mathcal{B}\omega_{roll} + {}_\mathcal{B}\omega_{pitch} + {}_\mathcal{B}\omega_{yaw}$
 	$${}_\mathcal{B}\omega =E_r \dot{\chi_r}=E_r\begin{bmatrix}\dot{\phi}\\\dot{\theta}\\\dot{\psi}\end{bmatrix} \text{, with } E_r = \begin{bmatrix} 1 & 0 & -sin \theta \\ 0 & cos\phi & sin\phi cos\theta \\ 0 & -sin\phi & cos\phi cos \theta\end{bmatrix}$$
-	Linearization for small Roll and Pitch ($\phi \approx \theta \approx 0$) results in a \textbf{unity matrix} $E_r = \mathbbm{1}$
+	Linearization small Roll \& Pitch ($\phi,\theta \approx 0$) $\rightarrow$ \textbf{unity matrix} $E_r = \mathbbm{1}$
 
 	\subsubsection{Body Dynamics}
 	$$\begin{bmatrix}
@@ -881,7 +887,8 @@
 			{}_\mathcal{B}M
 		\end{bmatrix}
 	$$
-	with Forces $${}_\mathcal{B}F = {}_\mathcal{B}F_G + {}_\mathcal{B}F_{Aero} = C_{EB}^T
+	with Forces %($T_i = b_i\omega_{p,i}^2$)
+	$${}_\mathcal{B}F = {}_\mathcal{B}F_G + {}_\mathcal{B}F_{Aero} = C_{EB}^T
 		\begin{bmatrix}
 			0 \\ 0\\ mg
 		\end{bmatrix}
@@ -891,7 +898,8 @@
 			\end{pmatrix}}
 	$$\\
 
-	and Hover Moments $${}_\mathcal{B}M_{\text{Aero}} =
+	and Hover Moments %($Q_i= d_i \omega_{p,i}^2$)
+	$${}_\mathcal{B}M_{\text{Aero}} =
 		\leftidx{_\mathcal{B}}{\begin{pmatrix}
 				l(T_4-T_2) \\ l(T_1-T_3)\\ 0
 			\end{pmatrix}}+
@@ -904,7 +912,7 @@
 	with Thrust forces $T_i = b_i\omega_{p,i}^2$ and Drag Forces $Q_i= d_i \omega_{p,i}^2$
 
 	\medskip
-	\textbf{Rotational Dynamics} (fist row of Dynamics)
+	\textbf{Rotational Dynamics} (2nd row of Dynamics)
 	\begin{align*}
 		I_{xx}\dot{\omega}_x & = \omega_y\cdot \omega_z (I_{yy}-I_{zz})+l\cdot b (\omega_{p,4}^2-\omega_{p,2}^2) \\
 		I_{yy}\dot{\omega}_y & = \omega_z\cdot \omega_x (I_{zz}-I_{xx})+l\cdot b (\omega_{p,1}^2-\omega_{p,3}^2) \\
@@ -914,7 +922,7 @@
 	$\Rightarrow$ We have full control over all rotational speeds (every equation depends on rotor speeds $w_{p,i}$). Note that $(I_{xx}-I_{yy})=0$ (x-y symmetry), which dropped out of the 3rd equation.
 
 	\medskip
-	\textbf{Translational Dynamics} (2nd row of dynamics)
+	\textbf{Translational Dynamics} (first row of dynamics)
 	\begin{align*}
 		m\dot{v}_x = & m(\omega_z\cdot v_y - \omega_y\cdot v_z)\textcolor{blue}{-sin\theta mg}                                     \\
 		m\dot{v}_y = & m(\omega_x\cdot v_z - \omega_z\cdot v_x)\textcolor{blue}{+sin\phi cos\theta mg}                             \\
