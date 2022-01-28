@@ -819,6 +819,7 @@
     \subsubsection{FB Quadratic Programming}
 	Objective: $\min_x \| A_i x - b_i \|_2 \hspace{3mm} x = 
 	\left( \begin{smallmatrix} \dot{u} \\ F_c \\ \tau \end{smallmatrix} \right)$ for different tasks: \\
+	EoM: $M \ddot{u}+b+g+J_cF_c=S^{\tau} \tau \Rightarrow A=[M,J_c,-S^\tau] \hspace{1mm} b=[-g,-b]$ \\
 	Motion Task: $J\dot{u}+\dot{J}u = \dot{\omega^*} \Rightarrow A=[J_i,0,0] \hspace{5mm} b=\omega^*-\dot{J}u$ \\
 	Force Task: $F_i = F_i^* \Rightarrow A=[0,\mathcal{I},0] \hspace{5mm} b=F_i^*$ \\
 	Torque Task: $ \min \| \tau \| \Rightarrow A=[0,0,\mathcal{I}] \hspace{5mm} b=0$
